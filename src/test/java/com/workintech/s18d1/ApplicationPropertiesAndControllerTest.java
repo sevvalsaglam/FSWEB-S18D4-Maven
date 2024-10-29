@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -55,7 +56,7 @@ class ApplicationPropertiesAndControllerTest {
     @BeforeEach
     void setUp() {
         sampleBurger = new Burger();
-        sampleBurger.setId(1L);
+        sampleBurger.setId(1);
         sampleBurger.setName("Classic Burger");
         sampleBurger.setPrice(7.99);
         sampleBurger.setIsVegan(false);
@@ -153,9 +154,9 @@ class ApplicationPropertiesAndControllerTest {
     @DisplayName("Update burger test")
     void testUpdateBurger() throws Exception {
         Burger updatedBurger = new Burger();
-        updatedBurger.setId(1L);
+        updatedBurger.setId(1);
         updatedBurger.setName("Updated Classic Burger");
-        given(burgerDao.update(any())).willReturn(updatedBurger);
+        BDDMockito.BDDMyOngoingStubbing<T> tbddMyOngoingStubbing = given(burgerDao.update(any())).willReturn(updatedBurger);
 
         mockMvc.perform(put("/burger")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +192,7 @@ class ApplicationPropertiesAndControllerTest {
     @DisplayName("Find by price test")
     void testFindByPrice() throws Exception {
         List<Burger> burgers = Arrays.asList(sampleBurger);
-        given(burgerDao.findByPrice(sampleBurger.getPrice().intValue())).willReturn(burgers);
+        given(burgerDao.findByPrice((double) Double.valueOf(sampleBurger.getPrice().intValue()))).willReturn(burgers);
 
         mockMvc.perform(get("/burger/price/{price}", sampleBurger.getPrice().intValue()))
                 .andExpect(status().isOk())
