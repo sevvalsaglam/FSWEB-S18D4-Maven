@@ -5,11 +5,11 @@ import com.workintech.s18d1.exceptions.BurgerException;
 import org.springframework.http.HttpStatus;
 
 public class BurgerValidation {
-    public static void validate(Burger burger) {
-        if (burger.getName() == null || burger.getName().isEmpty()) {
-            throw new BurgerException("Burger name cannot be empty", HttpStatus.BAD_REQUEST);
+
+    public static void checkName(String name) {
+        if(name==null || name.isEmpty()){
+            throw new BurgerException("name is null or empty!", HttpStatus.BAD_REQUEST);
         }
-        // Diğer validasyon kontrolleri
     }
 }
 
